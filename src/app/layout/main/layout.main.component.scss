@@ -1,0 +1,20 @@
+:host(app-layout) {
+    display: flex;
+    flex: 1;
+    flex-flow: column wrap;
+    header {
+        display: inherit;
+        background-color: #025CAF;
+        height: 30px;
+    }
+    section.main {
+        background-color: rebeccapurple;
+        display: inherit;
+        flex: 1;
+    }
+    footer {
+        display: inherit;
+        background-color: #025CAF;
+        height: 20px;
+    }
+}
