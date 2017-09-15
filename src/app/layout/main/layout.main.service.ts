@@ -2,21 +2,40 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
 
+export const enum Topics {
+    subject1 = 0,
+    subject2 = 1
+}
+
 @Injectable()
 export class LayoutMainService {
-    private subject = new Subject<any>();
+    private subject1 = new Subject<any>();
+    private subject2 = new Subject<any>();
 
-    sendMessage(message: string) {
-        debugger
-        this.subject.next({ text: message });
+    sendMessage(topic: Topics, message: string) {
+        switch (topic) {
+            case Topics.subject1:
+                this.subject1.next({ text: message + 'From: Subject 1' })
+                break;
+            case Topics.subject2:
+                this.subject2.next({ text: message + 'From: Subject 2' })
+                break;
+        }
     }
 
-    clearMessage() {
-        this.subject.next();
+    clearMessage(topic: Topics) {
+        switch (topic) {
+            case Topics.subject1: this.subject1.next(); break;
+            case Topics.subject2: this.subject2.next(); break;
+        }
     }
 
-    getMessage(): Observable<any> {
-        debugger
-        return this.subject.asObservable();
+    getMessage(topic: Topics): Observable<any> {
+        let result;
+        switch (topic) {
+            case Topics.subject1: result = this.subject1.asObservable(); break;
+            case Topics.subject2: result = this.subject2.asObservable(); break;
+        }
+        return result;
     }
 }

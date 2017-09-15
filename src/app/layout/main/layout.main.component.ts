@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { LayoutMainService } from "./layout.main.service";
+import { Topics, LayoutMainService } from "./layout.main.service";
 
 @Component({
   selector: 'app-layout',
@@ -11,7 +11,9 @@ import { LayoutMainService } from "./layout.main.service";
 export class LayoutMainComponent implements OnDestroy, OnInit {
 
   title: string;
+  title2: string;
   subscription: Subscription;
+  subscription2: Subscription;
 
   constructor(private messageService: LayoutMainService) { }
 
@@ -19,11 +21,14 @@ export class LayoutMainComponent implements OnDestroy, OnInit {
 
     this.title = '';
     // subscribe to home component messages
-    this.subscription = this.messageService.getMessage().subscribe(message => { this.title = message.text; });
+    this.subscription = this.messageService.getMessage(Topics.subject1).subscribe(message => { this.title = message.text; });
+    this.subscription2 = this.messageService.getMessage(Topics.subject2).subscribe(message => { this.title2 = message.text; });
+
   }
 
   ngOnDestroy(): void {
     // unsubscribe to ensure no memory leaks
     this.subscription.unsubscribe();
+    this.subscription2.unsubscribe();
   }
 }
