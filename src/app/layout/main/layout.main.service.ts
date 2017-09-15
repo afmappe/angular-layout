@@ -3,10 +3,11 @@ import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
 
 @Injectable()
-export class MessageService {
+export class LayoutMainService {
     private subject = new Subject<any>();
 
     sendMessage(message: string) {
+        debugger
         this.subject.next({ text: message });
     }
 
@@ -15,6 +16,7 @@ export class MessageService {
     }
 
     getMessage(): Observable<any> {
+        debugger
         return this.subject.asObservable();
     }
 }
