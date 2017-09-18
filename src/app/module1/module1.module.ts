@@ -5,7 +5,7 @@ import { LayoutMainComponent } from "../layout/main/layout.main.component";
 import { Module1Component } from "./module1.component";
 import { Module1RoutingModule } from "./module1-routing.module";
 
-import { LayoutMainService } from "../layout/main/layout.main.service";
+import { MessageService } from "../message.service";
 
 @NgModule({
   declarations: [
@@ -15,7 +15,7 @@ import { LayoutMainService } from "../layout/main/layout.main.service";
     CommonModule,
     Module1RoutingModule
   ],
-  providers: [LayoutMainService]
+  providers: [MessageService]
 
 })
 export class Module1Module { }

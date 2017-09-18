@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
 
@@ -72,24 +72,33 @@ export class KeyedCollection<T> implements IKeyedCollection<T> {
 export class Dictionary<T> extends KeyedCollection<T>{ }
 
 @Injectable()
-export class MessageService implements OnInit {
+export class MessageService {
 
-    private subjects: Dictionary<Subject<any>>;
-
-    ngOnInit(): void {
-        this.subjects = new Dictionary<Subject<any>>();
-    }
+    private subjects = new Dictionary<Subject<any>>();
 
     clearMessage(key: string) {
-        let subject = this.subjects.Item(key);
+        if (typeof key == 'undefined') {
+            let items = this.subjects.Values();
+            items.forEach(element => {
+                element.next();
+            });
+        }
 
-        if (typeof subject != 'undefined' && subject) {
-            subject.next();
+        else {
+            let subject = this.subjects.Item(key);
+            if (typeof subject != 'undefined' && subject) {
+                subject.next();
+            }
         }
     }
 
     getMessage(key: string): Observable<any> {
+
         let result;
+
+        if (!this.subjects.ContainsKey(key)) {
+            this.subjects.Add(key, new Subject<any>());
+        }
 
         let subject = this.subjects.Item(key);
 
@@ -101,14 +110,7 @@ export class MessageService implements OnInit {
     }
 
     sendMessage(key: string, message: string): void {
-
-        let subject: Subject<any>;
-
-        if (!this.subjects.ContainsKey(key)) {
-            this.subjects.Add(key, new Subject<any>());
-        }
-
-        subject = this.subjects.Item(key);
+        let subject = this.subjects.Item(key);
 
         if (typeof subject != 'undefined' && subject) {
             subject.next({ data: message });

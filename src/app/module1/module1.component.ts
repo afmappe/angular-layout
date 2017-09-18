@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 
-import { Topics, LayoutMainService } from "../layout/main/layout.main.service";
+import { MessageService } from "../message.service";
 
 @Component({
     selector: 'module1-root',
@@ -8,10 +8,10 @@ import { Topics, LayoutMainService } from "../layout/main/layout.main.service";
 })
 
 export class Module1Component implements OnInit {
-    constructor(private messageService: LayoutMainService) { }
+    constructor(private messageService: MessageService) { }
 
     ngOnInit(): void {
-        this.messageService.sendMessage(Topics.subject1, "Hello from Module1");
-        this.messageService.sendMessage(Topics.subject2, "Hello from Module2");
+        this.messageService.sendMessage('test1', "Hello from Module1");
+        this.messageService.sendMessage('test2', "Hello from Module2");
     }
 }
