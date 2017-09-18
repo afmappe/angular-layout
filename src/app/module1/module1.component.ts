@@ -11,6 +11,7 @@ export class Module1Component implements OnInit {
     constructor(private messageService: MessageService) { }
 
     ngOnInit(): void {
+        this.messageService.test();
         this.messageService.sendMessage('test1', "Hello from Module1");
         this.messageService.sendMessage('test2', "Hello from Module2");
     }

@@ -19,8 +19,9 @@ export class KeyedCollection<T> implements IKeyedCollection<T> {
     private count: number = 0;
 
     public Add(key: string, value: T) {
-        if (!this.items.hasOwnProperty(key))
+        if (!this.items.hasOwnProperty(key)) {
             this.count++;
+        }
 
         this.items[key] = value;
     }
@@ -34,9 +35,14 @@ export class KeyedCollection<T> implements IKeyedCollection<T> {
     }
 
     public Remove(key: string): T {
-        var val = this.items[key];
-        delete this.items[key];
-        this.count--;
+        let val = null;
+
+        if (this.items.hasOwnProperty(key)) {
+            val = this.items[key];
+            delete this.items[key];
+            this.count--;
+        }
+
         return val;
     }
 
@@ -45,27 +51,23 @@ export class KeyedCollection<T> implements IKeyedCollection<T> {
     }
 
     public Keys(): string[] {
-        var keySet: string[] = [];
-
+        let result: string[] = [];
         for (var prop in this.items) {
             if (this.items.hasOwnProperty(prop)) {
-                keySet.push(prop);
+                result.push(prop);
             }
         }
-
-        return keySet;
+        return result;
     }
 
     public Values(): T[] {
-        var values: T[] = [];
-
+        let result: T[] = [];
         for (var prop in this.items) {
             if (this.items.hasOwnProperty(prop)) {
-                values.push(this.items[prop]);
+                result.push(this.items[prop]);
             }
         }
-
-        return values;
+        return result;
     }
 }
 
@@ -75,6 +77,27 @@ export class Dictionary<T> extends KeyedCollection<T>{ }
 export class MessageService {
 
     private subjects = new Dictionary<Subject<any>>();
+
+    test(): void {
+        debugger
+        let test = new Dictionary<number>();
+        test.Add("1", 1);
+        test.Add("2", 2);
+        test.Add("3", 3);
+        test.Add("4", 4);
+
+        let b = test.ContainsKey("1");
+        b = test.ContainsKey("4");
+
+        let n = test.Count();
+        let i = test.Item("3");
+        let k = test.Keys();
+        i = test.Remove("1");
+        i = test.Remove("4");
+
+        b = n > test.Count();
+        k = test.Keys();
+    }
 
     clearMessage(key: string) {
         if (typeof key == 'undefined') {
