@@ -2,76 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
 
-export interface IKeyedCollection<T> {
-    Add(key: string, value: T);
-    ContainsKey(key: string): boolean;
-    Count(): number;
-    Item(key: string): T;
-    Keys(): string[];
-    Remove(key: string): T;
-    Values(): T[];
-}
-
-export class KeyedCollection<T> implements IKeyedCollection<T> {
-
-    private items: { [index: string]: T } = {};
-
-    private count: number = 0;
-
-    public Add(key: string, value: T) {
-        if (!this.items.hasOwnProperty(key)) {
-            this.count++;
-        }
-
-        this.items[key] = value;
-    }
-
-    public ContainsKey(key: string): boolean {
-        return this.items.hasOwnProperty(key);
-    }
-
-    public Count(): number {
-        return this.count;
-    }
-
-    public Remove(key: string): T {
-        let val = null;
-
-        if (this.items.hasOwnProperty(key)) {
-            val = this.items[key];
-            delete this.items[key];
-            this.count--;
-        }
-
-        return val;
-    }
-
-    public Item(key: string): T {
-        return this.items[key];
-    }
-
-    public Keys(): string[] {
-        let result: string[] = [];
-        for (var prop in this.items) {
-            if (this.items.hasOwnProperty(prop)) {
-                result.push(prop);
-            }
-        }
-        return result;
-    }
-
-    public Values(): T[] {
-        let result: T[] = [];
-        for (var prop in this.items) {
-            if (this.items.hasOwnProperty(prop)) {
-                result.push(this.items[prop]);
-            }
-        }
-        return result;
-    }
-}
-
-export class Dictionary<T> extends KeyedCollection<T>{ }
+import { Dictionary } from "./dictionary";
 
 @Injectable()
 export class MessageService {
